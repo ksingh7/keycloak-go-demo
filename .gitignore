@@ -1,0 +1,3 @@
+keycloak-go-app/tmp
+keycloak-go-app/tmp/*
+keycloak-go-app/.air.toml
