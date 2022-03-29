@@ -9,6 +9,7 @@ import (
 
 var router *gin.Engine
 
+// Get Environment variables from .env file
 func goDotEnvVariables(key string) string {
 	err := godotenv.Load(".env")
 	if err != nil {
@@ -22,6 +23,8 @@ func main() {
 	gin.SetMode(gin.ReleaseMode)
 
 	router = gin.Default()
+
+	// All route definations are here
 	initializeRoutes()
 
 	router.Run("localhost:8081")

@@ -15,9 +15,10 @@ type loginRequest struct {
 type loginResponse struct {
 	AccessToken  string `json:"accessToken"`
 	RefreshToken string `json:"refreshToken"`
-	ExpiresIn    int    `json:"expiresIn"`
+	ExpiresIn    int    `json:"expiresIn"` // Not used anywhere currently
 }
 
+// Login using the given username and password and prints access and refresh tokens
 func login(c *gin.Context) {
 
 	var requestBody loginRequest
@@ -58,25 +59,29 @@ func login(c *gin.Context) {
 
 }
 
+// Prints logout success status in response body
+// Most of the heavy lifting is done in Middleware TokenRevoke() method
 func logout(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"Status": "User loggedout",
 	})
 }
 
+// Unauthenticated simple Health Check API
 func health(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"Health": "OK",
 	})
 }
 
+// Authenticated simple Status Check API
 func status(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"Status": "OK",
 	})
 }
 
-// Calling external API and pringitn its output
+// Authenticated API to print Quote message by calling getmeaquote external API
 func getQuote(c *gin.Context) {
 
 	response, err := http.Get("http://getmeaquote.designedbyaturtle.com/")

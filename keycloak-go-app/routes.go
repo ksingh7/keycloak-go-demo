@@ -5,7 +5,9 @@ func initializeRoutes() {
 	// Unauthenticated routes
 	router.GET("/login", login)
 	router.GET("/health", health)
-	// Test API from browser witout sending credentials payload
+
+	// A slight modified version of /login API
+	// Use to Test from browser witout sending credentials as payload
 	router.GET("/loginWeb", login)
 
 	// Authenticated routes

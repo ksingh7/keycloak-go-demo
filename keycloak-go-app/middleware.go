@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// Token vaildation middleware
 func ValidateToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		auth := c.Request.Header.Get("Authorization")
@@ -40,6 +41,7 @@ func ValidateToken() gin.HandlerFunc {
 	}
 }
 
+// Revoke Token Middleware
 func TokenRevoke() gin.HandlerFunc {
 	return func(c *gin.Context) {
 

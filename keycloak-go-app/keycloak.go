@@ -28,6 +28,7 @@ var kCreds = &keycloakCreds{
 	realm:        goDotEnvVariables("KEYCLOAK_REALM"),
 }
 
+// Authenticate using username, password and get access & refresh tokens in return from keycloak
 func keycloakClientLogin(username string, password string) (string, string, error) {
 
 	var keycloakClientLoginCreds = &keycloakCreds{
@@ -40,6 +41,8 @@ func keycloakClientLogin(username string, password string) (string, string, erro
 	restyClient.SetDebug(false)
 
 	kCTX := context.Background()
+
+	// Uses Login Method of Nerzal/gocloak Library
 	jwt, err := keycloakClient.Login(
 		kCTX,
 		kCreds.clientId,
@@ -56,6 +59,7 @@ func keycloakClientLogin(username string, password string) (string, string, erro
 
 }
 
+// Validate (retrospect) access token
 func keycloakRetrospectToken(accessToken string) (bool, error) {
 
 	keycloakClient := gocloak.NewClient(kCreds.hostname)
@@ -63,6 +67,8 @@ func keycloakRetrospectToken(accessToken string) (bool, error) {
 	restyClient.SetDebug(false)
 
 	kCTX := context.Background()
+
+	// Uses RetrospectToken Method of Nerzal/gocloak Library to validate access token
 	retrospectToken, err := keycloakClient.RetrospectToken(
 		kCTX, accessToken,
 		kCreds.clientId,
@@ -83,6 +89,12 @@ func keycloakRetrospectToken(accessToken string) (bool, error) {
 
 }
 
+/* Revoke (invalidate) access token
+This does not uses Nerzal/gocloak Library because of the following issues
+https://github.com/Nerzal/gocloak/issues/347
+
+Instead calls /protocol/openid-connect/revoke endpoint of keycloak to revoke (invalidate) access token
+*/
 func keycloakClientTokenRevoke(accessToken string) error {
 
 	client := &http.Client{
