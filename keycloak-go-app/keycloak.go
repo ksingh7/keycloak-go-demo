@@ -22,10 +22,10 @@ type keycloakCreds struct {
 }
 
 var kCreds = &keycloakCreds{
-	hostname:     "http://localhost:8080/",
-	clientId:     "my-go-service",
-	clientSecret: "EoLFGrN97oeJ9xbqwVpMJQ2alWPKy1wC",
-	realm:        "dev",
+	hostname:     goDotEnvVariables("KEYCLOAK_HOSTNAME"),
+	clientId:     goDotEnvVariables("KEYCLOAK_CLIENT_ID"),
+	clientSecret: goDotEnvVariables("KEYCLOAK_CLIENT_SECRET"),
+	realm:        goDotEnvVariables("KEYCLOAK_REALM"),
 }
 
 func keycloakClientLogin(username string, password string) (string, string, error) {

@@ -2,11 +2,7 @@ package main
 
 import (
 	"fmt"
-	//"strings"
-
 	"github.com/gin-gonic/gin"
-
-	//"github.com/rs/zerolog/log"
 	"io/ioutil"
 	"net/http"
 )
@@ -29,8 +25,8 @@ func login(c *gin.Context) {
 
 	// Test API from browser witout sending credentials payload
 	if c.FullPath() == "/loginWeb" {
-		requestBody.Username = "user1"
-		requestBody.Password = "user1"
+		requestBody.Username = goDotEnvVariables("KEYCLOAK_USERNAME")
+		requestBody.Password = goDotEnvVariables("KEYCLOAK_PASSWORD")
 	} else {
 		if err := c.BindJSON(&requestBody); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
