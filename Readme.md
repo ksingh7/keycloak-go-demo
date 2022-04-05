@@ -34,6 +34,31 @@ go build . && ./keycloak-go-app
 - Health : `http://localhost:8081/health` to check if the API is up and running
 
 ### Deployment on Kubernetes/OpenShift
+- Create a new project `keycloak`
+- Navigate to `operatorhub` search for `keycloak` and install it. Make sure the project is `keycloak`
+- Once `keycloak` operator installation is done, to to `Installed Operator` > `keycloak` > `Create Instance` , name your keycloak instance and hit create
+- Grab Keycloak username and password
+```
+oc get secret -n keycloak credential-keycloak-instance -o jsonpath="{.data.ADMIN_USERNAME}" | base64 --decode
+
+oc get secret -n keyckoak credential-keycloak-instance -o jsonpath="{.data.ADMIN_PASSWORD}" | base64 --decode
+```
+- Get keycloak UI route
+```
+oc get route -n keycloak keycloak -o jsonpath="{.spec.host}"
+```
+### Keycloak Configuration
+- Create a new Realm
+- Create a user `user1` in the new realm
+  - Set `user1` credential and disable temporary password
+- Create a new Client `my-go-servie`
+  - `client-protocol : openid-connect`
+  - `Access Type : Confidential`
+  - `Valid Redirect URIs : http://localhost:8081`
+  - `Credentials > Secret > Regenerate Secret`
+
+### Preparing Keycloak Go app
+- edit `.env` and update environment variables for your setup
 ### Using the App
 
 #### Login
