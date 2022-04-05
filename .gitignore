@@ -1,3 +1,2 @@
-keycloak-go-app/tmp
-keycloak-go-app/tmp/*
+keycloak-go-app/tmp/build-errors.log
 keycloak-go-app/.air.toml
